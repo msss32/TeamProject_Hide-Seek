@@ -1,0 +1,24 @@
+@font-face {
+  font-family: "firstTitle";
+  src: url(fonts/a해탈.ttf);
+}
+
+#textTitle {
+  position: absolute;
+  font-family: "firstTitle";
+  visibility: hidden;
+  z-index: 3;
+  font-size: 75px;
+  color: red;
+  display: flex;
+  left: 50%;
+  top: 20%;
+  transform: translate(-50%, -50%);
+}
+
+#main {
+  position: absolute;
+  /* visibility: hidden; */
+  z-index: 1;
+  background-color: aqua;
+}
