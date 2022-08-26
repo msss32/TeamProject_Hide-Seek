@@ -26,33 +26,45 @@ app.get("/", (req, res) => {
 const playerId = [];
 const playerList = [];
 
-let Player;
 let players = [];
 
-io.on("connection", (socket) => {
-  console.log("유저접속");
+function Player(x, y, player) {
+  this.x = x;
+  this.y = y;
+  this.width = player.width;
+  this.height = player.height;
+  this.state = player.state;
+  this.time = player.time;
+  this.index = player.index;
+  this.speed = player.speed;
+  this.draw = false;
+}
+function anotherPlayer(x, y, player) {
+  this.x = x;
+  this.y = y;
+  this.width = player.width;
+  this.height = player.height;
+  this.state = player.state;
+  this.time = player.time;
+  this.index = player.index;
+  this.speed = player.speed;
+  this.draw = false;
+}
 
-  socket.on("createPlayer", (name, id, player) => {
+io.on("connection", (socket) => {
+  socket.on("createPlayer", (name, id, player, map) => {
     playerList.push(name);
     playerId.push(id);
-    Player = {
-      id: id,
-      name: name,
-      x: player.x,
-      y: player.y,
-      width: player.width,
-      height: player.height,
-      state: player.state,
-      time: player.time,
-      index: player.index,
-      speed: player.speed,
-    };
-    players.push(Player);
-    io.emit("createPlayer", players);
+    let _player = new Player(map.width / 2, map.height / 2, player);
+    players.push(_player);
+
+    socket.emit("createPlayer", players);
+    io.broadcast.emit("createPlayer", players);
   });
 
-  socket.on("updatePlayer", (data) => {
-    Player = data;
-    socket.broadcast.emit("updatePlayer");
-  });
+  // socket.on("updatePlayer", (map) => {
+  //   Player.x = map.x;
+  //   Player.y = map.y;
+  //   socket.broadcast.emit("updatePlayer", Player);
+  // });
 });

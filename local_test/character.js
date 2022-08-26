@@ -9,14 +9,14 @@ function Player() {
   this.speed = 7;
 
   this.draw = function () {
-    this.time++;
-    if (this.time % this.speed === 0) {
-      if (this.index < 3) {
-        this.index++;
-      } else {
-        this.index = 0;
-      }
-    }
+    // this.time++;
+    // if (this.time % this.speed === 0) {
+    //   if (this.index < 3) {
+    //     this.index++;
+    //   } else {
+    //     this.index = 0;
+    //   }
+    // }
 
     ctxMain.fillStyle = "green";
     ctxMain.fillRect(this.x, this.y, this.width, this.height);
@@ -44,7 +44,7 @@ function Player() {
   };
 }
 
-let gamePlayer;
+let gamePlayer = new Player();
 
 // let stayPlayer = new Array();
 // let stayImglink = [

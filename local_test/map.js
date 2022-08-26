@@ -1,14 +1,16 @@
 let canvasMain = document.getElementById("main");
 let ctxMain = canvasMain.getContext("2d");
 
-canvasMain.width = 700;
-canvasMain.height = 700;
+canvasMain.x = 0;
+canvasMain.y = 0;
+canvasMain.width = 1000;
+canvasMain.height = 1000;
 
 let map = {
-  x: Math.floor(Math.random() * 600 + 1),
-  y: Math.floor(Math.random() * 600 + 1),
-  width: 500,
-  height: 500,
+  x: canvasMain.x,
+  y: canvasMain.y,
+  width: canvasMain.width,
+  height: canvasMain.height,
 
   draw() {
     ctxMain.fillStyle = "red";

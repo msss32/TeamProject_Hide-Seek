@@ -8,8 +8,6 @@
 //   document.getElementById("thirdTxt").style.visibility = "visible";
 // }, 5000);
 
-const socket = io.connect();
-
 let keyMap = {};
 
 function keyPress() {
@@ -61,9 +59,10 @@ function keyPress() {
   }
 
   map.x -= vx;
+  canvasMain.style.left -= `calc(${Number(canvasMain.style.left)} - ${vx}px)`;
+  console.log(canvasMain.style.left);
   map.y -= vy;
-
-  socket.emit("updatePlayer", map);
+  canvasMain.style.top = `calc(- ${vy}px)`;
 }
 
 let skillObj = {};
@@ -79,11 +78,7 @@ function frame() {
   ctxMain.clearRect(0, 0, canvasMain.width, canvasMain.height);
   keyPress();
   map.draw();
-  if (players !== []) {
-    players.forEach((e) => {
-      e.draw();
-    });
-  }
+  gamePlayer.draw();
   requestAnimationFrame(game);
 }
 
@@ -102,38 +97,4 @@ function game() {
 
   frame();
 }
-
-window.onload = function () {
-  loginbtn.onclick = function () {
-    login.style.display = "none";
-    console.log("유저접속");
-    const name = username.value;
-
-    setTimeout(() => {
-      let id = socket.id;
-      gamePlayer = new Player();
-      socket.emit("createPlayer", name, id, gamePlayer, canvasMain);
-    }, 300);
-
-    socket.on("createPlayer", (data) => {
-      players = data;
-      console.log(data);
-      players.forEach((e) => {
-        if (e.draw === false) {
-          e.draw = function () {
-            ctxMain.fillStyle = "green";
-            ctxMain.fillRect(e.x, e.y, e.width, e.height);
-          };
-        }
-      });
-    });
-
-    // socket.on("updatePlayer", (data) => {
-    //   players.forEach((data) => {
-    //     data.update();
-    //   });
-    // });
-
-    game();
-  };
-};
+game();
