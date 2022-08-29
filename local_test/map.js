@@ -7,10 +7,10 @@ canvasMain.width = 1000;
 canvasMain.height = 1000;
 
 let map = {
-  x: canvasMain.x,
-  y: canvasMain.y,
-  width: canvasMain.width,
-  height: canvasMain.height,
+  x: Math.floor(Math.random() * 400 - 200),
+  y: Math.floor(Math.random() * 550 + 25),
+  width: 700,
+  height: 700,
 
   draw() {
     ctxMain.fillStyle = "red";

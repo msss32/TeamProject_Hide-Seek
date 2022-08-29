@@ -22,6 +22,7 @@ function keyPress() {
       vy = -3.5;
     }
   } else {
+    gamePlayer.state = "stay";
     delete keyMap["w"];
   }
 
@@ -59,10 +60,9 @@ function keyPress() {
   }
 
   map.x -= vx;
-  canvasMain.style.left -= `calc(${Number(canvasMain.style.left)} - ${vx}px)`;
-  console.log(canvasMain.style.left);
+  // canvasMain.style.left -= `calc(${Number(canvasMain.style.left)} - ${vx}px)`;
   map.y -= vy;
-  canvasMain.style.top = `calc(- ${vy}px)`;
+  // canvasMain.style.top = `calc(- ${vy}px)`;
 }
 
 let skillObj = {};
@@ -79,6 +79,10 @@ function frame() {
   keyPress();
   map.draw();
   gamePlayer.draw();
+  console.log(map.x);
+  console.log(map.y);
+  console.log(gamePlayer.x);
+  console.log(gamePlayer.y);
   requestAnimationFrame(game);
 }
 

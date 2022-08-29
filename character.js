@@ -1,3 +1,5 @@
+// 캐릭터 설정
+
 function Player() {
   this.x = canvasMain.width / 2 - 30;
   this.y = canvasMain.height / 2 - 52;

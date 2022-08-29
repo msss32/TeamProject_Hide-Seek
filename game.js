@@ -8,10 +8,16 @@
 //   document.getElementById("thirdTxt").style.visibility = "visible";
 // }, 5000);
 
+// 소켓 연결
 const socket = io.connect();
 
+// 키입력 객체
 let keyMap = {};
 
+// 키입력 기능
+// vx, vy 변수 설정
+// keyMap에 wasd가 들어갔을 때 캐릭터 움직임
+// 맵과 닿았을 때 vx, vy값 0 아니면 정한 값으로 움직임
 function keyPress() {
   let vx = 0;
   let vy = 0;
@@ -63,9 +69,11 @@ function keyPress() {
   map.x -= vx;
   map.y -= vy;
 
+  // 소켓으로 보냄
   socket.emit("updatePlayer", map);
 }
 
+// 스킬 미구현
 let skillObj = {};
 
 function shoot() {
@@ -73,20 +81,23 @@ function shoot() {
   skillObj.y = gamePlayer.y;
 }
 
-let players = [];
+// 플레이어 빈 객체
+let player = [];
 
+// 기능 넣고 프레임 돌림
 function frame() {
   ctxMain.clearRect(0, 0, canvasMain.width, canvasMain.height);
   keyPress();
   map.draw();
-  if (players !== []) {
-    players.forEach((e) => {
+  if (player !== []) {
+    player.forEach((e) => {
       e.draw();
     });
   }
   requestAnimationFrame(game);
 }
 
+// 키보드 이벤트 넣고 게임 돌리기
 function game() {
   document.addEventListener("keydown", function (key) {
     if (!keyMap[key.key]) {
@@ -103,22 +114,25 @@ function game() {
   frame();
 }
 
+// 클라이언트 소켓 설정
 window.onload = function () {
   loginbtn.onclick = function () {
     login.style.display = "none";
     console.log("유저접속");
     const name = username.value;
 
+    // 새로운 플레이어 생성후 소켓으로 emit
     setTimeout(() => {
       let id = socket.id;
       gamePlayer = new Player();
       socket.emit("createPlayer", name, id, gamePlayer, canvasMain);
     }, 300);
 
+    // 서버에서 받아온 플레이어 그려줌
     socket.on("createPlayer", (data) => {
-      players = data;
+      player = data;
       console.log(data);
-      players.forEach((e) => {
+      player.forEach((e) => {
         if (e.draw === false) {
           e.draw = function () {
             ctxMain.fillStyle = "green";
@@ -129,7 +143,7 @@ window.onload = function () {
     });
 
     // socket.on("updatePlayer", (data) => {
-    //   players.forEach((data) => {
+    //   player.forEach((data) => {
     //     data.update();
     //   });
     // });
