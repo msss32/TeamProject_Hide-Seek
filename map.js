@@ -3,18 +3,22 @@
 let canvasMain = document.getElementById("main");
 let ctxMain = canvasMain.getContext("2d");
 
-canvasMain.width = 700;
-canvasMain.height = 700;
+canvasMain.x = 333;
+canvasMain.y = 625;
+canvasMain.width = 1000;
+canvasMain.height = 1000;
+
+let mapImg = new Image();
+mapImg.src = "games/images/map/map.png";
 
 // 맵 설정
 let map = {
-  x: Math.floor(Math.random() * 600 + 1),
-  y: Math.floor(Math.random() * 600 + 1),
-  width: 500,
-  height: 500,
+  x: Math.floor(Math.random() * 2700 - 2400),
+  y: Math.floor(Math.random() * 1300 - 700),
+  width: 2880,
+  height: 1600,
 
   draw() {
-    ctxMain.fillStyle = "red";
-    ctxMain.fillRect(this.x, this.y, this.width, this.height);
+    ctxMain.drawImage(mapImg, this.x, this.y, this.width, this.height);
   },
 };

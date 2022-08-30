@@ -27,40 +27,37 @@ app.get("/", (req, res) => {
 
 // 서버 플레이어 소켓 아이디, 닉네임 빈 배열
 const playerId = [];
-const playerList = [];
+// const playerList = [];
 
 // 서버 플레이어 빈 배열
 let players = [];
-let otherPlayers = function Player(x, y, state, player) {
+function Player(x, y, player) {
   this.x = x;
   this.y = y;
-  this.state = state;
-  this.draw = false;
-};
-
-function anotherPlayer(x, y, state, player) {
-  this.x = x;
-  this.y = y;
-  this.state = state;
+  this.width = player.width;
+  this.height = player.height;
+  this.state = player.state;
+  this.time = player.time;
+  this.speed = player.speed;
+  this.index = player.index;
   this.draw = false;
 }
 
 // 소켓 연결
 io.on("connection", (socket) => {
   // createPlayer 서버에 소켓아이디, 닉네임 넣고 플레이어 생성
-  socket.on("createPlayer", (name, id, player, map) => {
-    playerList.push(name);
+  socket.on("createPlayer", (id, player, map, state) => {
+    // playerList.push(name);
     playerId.push(id);
-    let _player = new Player(map.width / 2, map.height / 2, player);
+    let _player = new Player(map.x, map.y, player);
+    console.log(map);
     players.push(_player);
 
-    socket.emit("createPlayer", players);
-    io.broadcast.emit("createPlayer", players);
+    socket.emit("createPlayer", players, state);
   });
 
-  // socket.on("updatePlayer", (map) => {
-  //   Player.x = map.x;
-  //   Player.y = map.y;
-  //   socket.broadcast.emit("updatePlayer", Player);
-  // });
+  socket.on("updatePlayer", (gamePlayer) => {
+    Player.state = gamePlayer.state;
+    socket.emit("updatePlayer", gamePlayer.state);
+  });
 });

@@ -13,10 +13,12 @@ let keyMap = {};
 function keyPress() {
   let vx = 0;
   let vy = 0;
+  let shotX = 0;
+  let shotY = 0;
 
   if (keyMap["w"]) {
     gamePlayer.state = "up";
-    if (gamePlayer.y + 55 < map.y) {
+    if (gamePlayer.y - 25 <= map.y) {
       vy = 0;
     } else {
       vy = -3.5;
@@ -28,7 +30,7 @@ function keyPress() {
 
   if (keyMap["s"]) {
     gamePlayer.state = "down";
-    if (gamePlayer.y + gamePlayer.height + 1.5 > map.y + map.height) {
+    if (gamePlayer.y + gamePlayer.height + 59 >= map.y + map.height) {
       vy = 0;
     } else {
       vy = 3.5;
@@ -39,7 +41,7 @@ function keyPress() {
 
   if (keyMap["a"]) {
     gamePlayer.state = "left";
-    if (gamePlayer.x - 1.5 < map.x) {
+    if (gamePlayer.x - 32 <= map.x) {
       vx = 0;
     } else {
       vx = -3.5;
@@ -50,7 +52,7 @@ function keyPress() {
 
   if (keyMap["d"]) {
     gamePlayer.state = "right";
-    if (gamePlayer.x + gamePlayer.width + 2.5 > map.x + map.width) {
+    if (gamePlayer.x + gamePlayer.width + 32 >= map.x + map.width) {
       vx = 0;
     } else {
       vx = 3.5;
@@ -59,17 +61,21 @@ function keyPress() {
     delete keyMap["d"];
   }
 
+  if (keyMap["k"]) {
+    if ((gamePlayer.state = "stay")) {
+      skill.draw();
+      shotX = 3.5;
+    }
+  } else {
+    delete keyMap["k"];
+  }
+
   map.x -= vx;
   // canvasMain.style.left -= `calc(${Number(canvasMain.style.left)} - ${vx}px)`;
   map.y -= vy;
   // canvasMain.style.top = `calc(- ${vy}px)`;
-}
-
-let skillObj = {};
-
-function shoot() {
-  skillObj.x = gamePlayer.x;
-  skillObj.y = gamePlayer.y;
+  skill.x -= shotX;
+  skill.y -= shotY;
 }
 
 let players = [];
@@ -79,8 +85,6 @@ function frame() {
   keyPress();
   map.draw();
   gamePlayer.draw();
-  console.log(map.x);
-  console.log(map.y);
   console.log(gamePlayer.x);
   console.log(gamePlayer.y);
   requestAnimationFrame(game);

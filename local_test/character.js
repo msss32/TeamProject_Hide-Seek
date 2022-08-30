@@ -1,10 +1,8 @@
-let camera = document.getElementById("canvas");
-
 function Player() {
-  this.x = 330;
-  this.y = 600;
-  this.width = 60;
-  this.height = 104;
+  this.x = canvasMain.width / 3;
+  this.y = canvasMain.height / 1.6;
+  this.width = 40;
+  this.height = 71;
   this.state = "stay";
   this.time = 0;
   this.index = 0;
@@ -20,8 +18,8 @@ function Player() {
       }
     }
 
-    ctxMain.fillStyle = "green";
-    ctxMain.fillRect(this.x, this.y, this.width, this.height);
+    // ctxMain.fillStyle = "green";
+    // ctxMain.fillRect(this.x, this.y, this.width, this.height);
     ctxMain.drawImage(
       this.state == "stay"
         ? stayPlayer[this.index]
@@ -107,3 +105,19 @@ for (let i = 0; i < 4; i++) {
   rightPlayer.push(new Image());
   rightPlayer[i].src = rightImglink[i];
 }
+
+let shot = new Image();
+shot.src = "images/character/stay-shot.png";
+
+function Shoot() {
+  this.x = gamePlayer.x;
+  this.y = gamePlayer.y;
+  this.width = 20;
+  this.height = 50;
+
+  this.draw = function () {
+    ctxMain.drawImage(shot, this.x, this.y, this.width, this.height);
+  };
+}
+
+let skill = new Shoot();

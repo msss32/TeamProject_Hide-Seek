@@ -6,14 +6,16 @@ canvasMain.y = 0;
 canvasMain.width = 1000;
 canvasMain.height = 1000;
 
+let mapImg = new Image();
+mapImg.src = "map/map.png";
+
 let map = {
-  x: Math.floor(Math.random() * 400 - 200),
-  y: Math.floor(Math.random() * 550 + 25),
-  width: 700,
-  height: 700,
+  x: Math.floor(Math.random() * 2000 - 1700),
+  y: Math.floor(Math.random() * 1700 - 1000),
+  width: 2880,
+  height: 1600,
 
   draw() {
-    ctxMain.fillStyle = "red";
-    ctxMain.fillRect(this.x, this.y, this.width, this.height);
+    ctxMain.drawImage(mapImg, this.x, this.y, this.width, this.height);
   },
 };
