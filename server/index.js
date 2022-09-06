@@ -2,7 +2,7 @@ const app = require("express")();
 const http = require("http").Server(app);
 const io = require("socket.io")(http, {
   cors: {
-    origins: ["http://localhost:8080"],
+    origins: ["http://localhost:7000"],
   },
 });
 
@@ -33,6 +33,6 @@ io.on("connection", (socket) => {
   });
 });
 
-http.listen(3000, () => {
+http.listen(5000, () => {
   console.log("서버 열림");
 });

@@ -8,7 +8,7 @@ const movementBoundary = (x, y) => {
 export const movePlayer = (keys, player) => {
   let playerMoved = false;
   const absPlayerX = player.x + MAP_WIDTH / 2;
-  const absPlayerY = player.y + MAP_HEIGHT / 2 + 25;
+  const absPlayerY = player.y + MAP_HEIGHT / 2 + 31;
   if (
     keys.includes("KeyW") &&
     movementBoundary(absPlayerX, absPlayerY - PLAYER_SPEED)

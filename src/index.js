@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import { io } from "socket.io-client";
 import mapImg from "./assets/map.png";
-import playerImg from "./assets/player.png";
+import playerImg from "./assets/player_1.png";
 import {
   PLAYER_WIDTH,
   PLAYER_HEIGHT,
@@ -15,7 +15,7 @@ import { get } from "stream-http";
 const player = {};
 let players = [];
 
-let socket = io("localhost:3000");
+let socket = io("http://192.168.0.72:5000");
 
 let pressedKeys = [];
 

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script src="http://192.168.0.72:5000/socket.io/socket.io.js"></script>
   </head>
   <style>
     body {
@@ -14,12 +14,20 @@
       place-items: center;
       min-height: 100vh;
       overflow: hidden;
+      position: relative;
     }
     canvas {
       border-radius: 12px;
     }
+    #chattingBox {
+      position: absolute;
+      top: 40%;
+      left: 75%;
+      width: 23%;
+      height: 53%;
+    }
   </style>
   <body>
-    <div>sdafsdf</div>
+    <div id="chattingBox">채팅</div>
   </body>
 </html>

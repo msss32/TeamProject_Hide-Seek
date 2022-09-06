@@ -2,10 +2,12 @@ const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-// const nodeExternals = require("webpack-node-externals");
 
 module.exports = {
   mode: "development",
+  devServer: {
+    port: 7000,
+  },
   devtool: "eval-source-map",
   module: {
     rules: [
