@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script src="http://192.168.0.72:5000/socket.io/socket.io.js"></script>
+    <!-- <script src="http://192.168.0.72:5000/socket.io/socket.io.js"></script> -->
   </head>
   <style>
     body {
@@ -16,18 +16,159 @@
       overflow: hidden;
       position: relative;
     }
+    #title {
+      position: absolute;
+      width: 50%;
+      height: 10%;
+      top: 12%;
+      font-size: 2.5em;
+      text-align: center;
+      color: white;
+    }
+    #roomSelect {
+      width: 50%;
+      height: 50%;
+      color: white;
+      border: 1em red solid;
+      border-radius: 15px;
+      position: absolute;
+      z-index: 3;
+    }
+    @font-face {
+      font-family: "roomSelect";
+      src: url(font/a허상명조B.ttf);
+    }
     canvas {
       border-radius: 12px;
+      visibility: hidden;
+      z-index: 2;
     }
-    #chattingBox {
+    .room {
+      width: 90%;
+      height: 20%;
+      display: flex;
+      align-items: center;
+      margin-left: 15px;
+      font-size: 20px;
+    }
+    .enterRoom1 {
+      color: red;
+      margin-left: 15px;
+    }
+    .enterRoom2 {
+      color: red;
+      margin-left: 15px;
+    }
+    .enterRoom3 {
+      color: red;
+      margin-left: 15px;
+    }
+    .enterRoom4 {
+      color: red;
+      margin-left: 15px;
+    }
+    .enterRoom5 {
+      color: red;
+      margin-left: 15px;
+    }
+    #chattingTitle {
       position: absolute;
       top: 40%;
       left: 75%;
       width: 23%;
       height: 53%;
+      visibility: hidden;
+      z-index: 2;
+      color: white;
+    }
+    #chattingBox {
+      position: absolute;
+      width: 95%;
+      height: 95%;
+      border: 10px red solid;
+    }
+
+    #send {
+      position: fixed;
+      bottom: 43px;
+      width: 29.3%;
+      box-sizing: border-box;
+      display: flex;
+    }
+
+    #send #msg {
+      border: 0;
+      box-sizing: border-box;
+      padding: 10px;
+      width: 65%;
+    }
+
+    #send #sendBtn {
+      background-color: aquamarine;
+      border: none;
+      box-sizing: border-box;
+      padding: 10px;
+      width: 10%;
+    }
+
+    #messages {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    #messages li {
+      padding: 5px 10px;
     }
   </style>
   <body>
-    <div id="chattingBox">채팅</div>
+    <div id="title">어디로 갈래?</div>
+    <div id="roomSelect">
+      <div class="room">Room1 <button class="enterRoom1">입장</button></div>
+      <div class="room">Room2 <button class="enterRoom2">입장</button></div>
+      <div class="room">Room3 <button class="enterRoom3">입장</button></div>
+      <div class="room">
+        Room4 공사중 <button class="enterRoom4" disabled>입장</button>
+      </div>
+      <div class="room">
+        Room5 공사중 <button class="enterRoom5" disabled>입장</button>
+      </div>
+    </div>
+    <div id="chattingTitle">
+      꼭꼭 숨어라 머리카락 보일라
+      <div id="chattingBox">
+        <ul id="messages"></ul>
+        <div id="send">
+          <input id="msg" />
+          <button id="sendBtn">Chat</button>
+        </div>
+      </div>
+    </div>
   </body>
+  <script>
+    // const socket = io("http://192.168.0.72:5000");
+
+    document
+      .querySelector(".enterRoom1")
+      .addEventListener("click", function () {
+        console.log("실행");
+        document.getElementById("title").style.visibility = "hidden";
+        document.getElementById("roomSelect").style.visibility = "hidden";
+        document.querySelector("canvas").style.visibility = "visible";
+        document.querySelector("#chattingTitle").style.visibility = "visible";
+      });
+
+    sendBtn.onclick = function () {
+      socket.emit("chat", msg.value);
+      msg.value = "";
+    };
+
+    socket.on("chat", (msg) => {
+      messages.innerHTML += `
+            <li>
+                ${msg}
+            </li>
+            `;
+    });
+  </script>
 </html>

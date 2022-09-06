@@ -15,7 +15,7 @@ import { get } from "stream-http";
 const player = {};
 let players = [];
 
-let socket = io("http://192.168.0.72:5000");
+// let socket = io("http://192.168.0.72:5000");
 
 let pressedKeys = [];
 
@@ -37,29 +37,29 @@ class ProjectGame extends Phaser.Scene {
 
     player.sprite = this.add.sprite(PLAYER_START_X, PLAYER_START_Y, "player");
 
-    setTimeout(() => {
-      let id = socket.id;
-      player.id = id;
+    // setTimeout(() => {
+    //   let id = socket.id;
+    //   player.id = id;
 
-      players.push(player);
-      socket.emit("newPlayer", { id, sprite: player.sprite });
-    }, 300);
+    //   players.push(player);
+    //   socket.emit("newPlayer", { id, sprite: player.sprite });
+    // }, 300);
 
-    socket.on("newPlayer", (data) => {
-      let otherPlayer = data.filter(function (player) {
-        return !players.find((_player) => _player.id == player.id);
-      });
+    // socket.on("newPlayer", (data) => {
+    //   let otherPlayer = data.filter(function (player) {
+    //     return !players.find((_player) => _player.id == player.id);
+    //   });
 
-      // 새로 추가된 플레이어를 sprite에 추가함
-      otherPlayer.forEach((item, idx, arr) => {
-        arr[idx].sprite = this.add.sprite(
-          item.sprite.x,
-          item.sprite.y,
-          "player"
-        );
-        players.push(arr[idx]);
-      });
-    });
+    //   // 새로 추가된 플레이어를 sprite에 추가함
+    //   otherPlayer.forEach((item, idx, arr) => {
+    //     arr[idx].sprite = this.add.sprite(
+    //       item.sprite.x,
+    //       item.sprite.y,
+    //       "player"
+    //     );
+    //     players.push(arr[idx]);
+    //   });
+    // });
 
     player.runAnimation = this.anims.create({
       key: "running",
@@ -77,30 +77,30 @@ class ProjectGame extends Phaser.Scene {
       pressedKeys = pressedKeys.filter((key) => key != e.code);
     });
 
-    socket.on("move", ({ x, y, id }) => {
-      let movePlayer = players.find((item) => item.id == id);
-      if (movePlayer.sprite.x > x) {
-        movePlayer.sprite.flipX = false;
-      } else if (movePlayer.sprite.x < x) {
-        movePlayer.sprite.flipX = true;
-      }
+    // socket.on("move", ({ x, y, id }) => {
+    //   let movePlayer = players.find((item) => item.id == id);
+    //   if (movePlayer.sprite.x > x) {
+    //     movePlayer.sprite.flipX = false;
+    //   } else if (movePlayer.sprite.x < x) {
+    //     movePlayer.sprite.flipX = true;
+    //   }
 
-      movePlayer.sprite.x = x;
-      movePlayer.sprite.y = y;
-      movePlayer.moving = true;
-    });
+    //   movePlayer.sprite.x = x;
+    //   movePlayer.sprite.y = y;
+    //   movePlayer.moving = true;
+    // });
 
-    socket.on("moveEnd", ({ id }) => {
-      let movePlayer = players.find((item) => item.id == id);
-      movePlayer.moving = false;
-    });
+    // socket.on("moveEnd", ({ id }) => {
+    //   let movePlayer = players.find((item) => item.id == id);
+    //   movePlayer.moving = false;
+    // });
 
-    socket.on("disconnection", ({ id }) => {
-      let removePlayer = players.find((item) => item.id == id);
-      let idx = players.indexOf(removePlayer);
-      players.splice(idx, 1);
-      removePlayer.sprite.destroy();
-    });
+    // socket.on("disconnection", ({ id }) => {
+    //   let removePlayer = players.find((item) => item.id == id);
+    //   let idx = players.indexOf(removePlayer);
+    //   players.splice(idx, 1);
+    //   removePlayer.sprite.destroy();
+    // });
   }
 
   update() {

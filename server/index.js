@@ -23,6 +23,10 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("moveEnd", { id: socket.id });
   });
 
+  socket.on("chat", (msg) => {
+    io.emit("chat", msg);
+  });
+
   socket.on("disconnect", () => {
     let outPlayer = players.find((player) => player.id == socket.id);
     let idx = players.indexOf(outPlayer);
