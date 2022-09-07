@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <!-- <script src="http://192.168.0.72:5000/socket.io/socket.io.js"></script> -->
+    <script src="http://localhost:5000/socket.io/socket.io.js"></script>
   </head>
   <style>
     body {
@@ -24,6 +24,7 @@
       font-size: 2.5em;
       text-align: center;
       color: white;
+      font-family: "roomSelect";
     }
     #roomSelect {
       width: 50%;
@@ -36,7 +37,7 @@
     }
     @font-face {
       font-family: "roomSelect";
-      src: url(font/a허상명조B.ttf);
+      src: url(font/roomSelectB.ttf);
     }
     canvas {
       border-radius: 12px;
@@ -50,10 +51,12 @@
       align-items: center;
       margin-left: 15px;
       font-size: 20px;
+      justify-content: space-between;
     }
     .enterRoom1 {
       color: red;
       margin-left: 15px;
+      display: flex;
     }
     .enterRoom2 {
       color: red;
@@ -71,6 +74,18 @@
       color: red;
       margin-left: 15px;
     }
+
+    #characterSelect {
+      width: 50%;
+      height: 50%;
+      color: white;
+      border: 1em red solid;
+      border-radius: 15px;
+      position: absolute;
+      z-index: 2;
+      visibility: hidden;
+    }
+
     #chattingTitle {
       position: absolute;
       top: 40%;
@@ -78,9 +93,10 @@
       width: 23%;
       height: 53%;
       visibility: hidden;
-      z-index: 2;
+      z-index: 1;
       color: white;
     }
+
     #chattingBox {
       position: absolute;
       width: 95%;
@@ -89,9 +105,10 @@
     }
 
     #send {
-      position: fixed;
-      bottom: 43px;
-      width: 29.3%;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 45px;
       box-sizing: border-box;
       display: flex;
     }
@@ -100,7 +117,7 @@
       border: 0;
       box-sizing: border-box;
       padding: 10px;
-      width: 65%;
+      width: calc(100% - 50px);
     }
 
     #send #sendBtn {
@@ -108,13 +125,15 @@
       border: none;
       box-sizing: border-box;
       padding: 10px;
-      width: 10%;
+      width: 50px;
     }
 
     #messages {
       list-style: none;
       margin: 0;
       padding: 0;
+      height: calc(100% - 45px);
+      overflow-y: scroll;
     }
 
     #messages li {
@@ -124,14 +143,37 @@
   <body>
     <div id="title">어디로 갈래?</div>
     <div id="roomSelect">
-      <div class="room">Room1 <button class="enterRoom1">입장</button></div>
-      <div class="room">Room2 <button class="enterRoom2">입장</button></div>
-      <div class="room">Room3 <button class="enterRoom3">입장</button></div>
+      <div class="room">
+        Room1
+        <button class="enterRoom1">입장</button>
+        <div id="playerJoin1">0/7</div>
+      </div>
+      <div class="room">
+        Room2 공사중 <button class="enterRoom2" disabled>입장</button>
+        <div id="playerJoin2">0/7</div>
+      </div>
+      <div class="room">
+        Room3 공사중 <button class="enterRoom3" disabled>입장</button>
+        <div id="playerJoin3">0/7</div>
+      </div>
       <div class="room">
         Room4 공사중 <button class="enterRoom4" disabled>입장</button>
+        <div id="playerJoin4">0/7</div>
       </div>
       <div class="room">
         Room5 공사중 <button class="enterRoom5" disabled>입장</button>
+        <div id="playerJoin5">0/7</div>
+      </div>
+    </div>
+    <div id="characterSelect">캐릭터선택
+      <div id="characterList">
+        <dt>
+          <dd><img src="assets/characterSelect_1.png" alt="1"></dd>
+          <dd><img src="assets/characterSelect_2.png" alt="2"></dd>
+          <dd><img src="assets/characterSelect_3.png" alt="3"></dd>
+          <dd><img src="assets/characterSelect_4.png" alt="4"></dd>
+          <dd><img src="assets/characterSelect_5.png" alt="5"></dd>
+        </dt>
       </div>
     </div>
     <div id="chattingTitle">
@@ -146,18 +188,25 @@
     </div>
   </body>
   <script>
-    // const socket = io("http://192.168.0.72:5000");
+    socket = io("http://localhost:5000/");
 
+    socket.emit("playerCheck");
+    socket.on("playerCheck", (room) => {
+      for (let x in room) {
+        document.querySelector("#playerJoin" + x).innerHTML = room[x] + "/7";
+      }
+    });
     document
       .querySelector(".enterRoom1")
       .addEventListener("click", function () {
-        console.log("실행");
         document.getElementById("title").style.visibility = "hidden";
         document.getElementById("roomSelect").style.visibility = "hidden";
-        document.querySelector("canvas").style.visibility = "visible";
-        document.querySelector("#chattingTitle").style.visibility = "visible";
+        // document.querySelector("canvas").style.visibility = "visible";
+        // document.querySelector("#chattingTitle").style.visibility = "visible";
+        document.getElementById("characterSelect").style.visibility = "visible"
+        socket.emit("playerJoin", { room: 1 });
       });
-
+      
     sendBtn.onclick = function () {
       socket.emit("chat", msg.value);
       msg.value = "";
