@@ -168,11 +168,11 @@
     <div id="characterSelect">캐릭터선택
       <div id="characterList">
         <dt>
-          <dd><img src="assets/characterSelect_1.png" alt="1"></dd>
-          <dd><img src="assets/characterSelect_2.png" alt="2"></dd>
-          <dd><img src="assets/characterSelect_3.png" alt="3"></dd>
-          <dd><img src="assets/characterSelect_4.png" alt="4"></dd>
-          <dd><img src="assets/characterSelect_5.png" alt="5"></dd>
+          <dd><img src="src/assets/characterSelect_1.png" alt="1"></dd>
+          <dd><img src="src/assets/characterSelect_2.png" alt="2"></dd>
+          <dd><img src="src/assets/characterSelect_3.png" alt="3"></dd>
+          <dd><img src="src/assets/characterSelect_4.png" alt="4"></dd>
+          <dd><img src="src/assets/characterSelect_5.png" alt="5"></dd>
         </dt>
       </div>
     </div>
@@ -201,9 +201,9 @@
       .addEventListener("click", function () {
         document.getElementById("title").style.visibility = "hidden";
         document.getElementById("roomSelect").style.visibility = "hidden";
-        // document.querySelector("canvas").style.visibility = "visible";
-        // document.querySelector("#chattingTitle").style.visibility = "visible";
-        document.getElementById("characterSelect").style.visibility = "visible"
+        document.querySelector("canvas").style.visibility = "visible";
+        document.querySelector("#chattingTitle").style.visibility = "visible";
+        // document.getElementById("characterSelect").style.visibility = "visible"
         socket.emit("playerJoin", { room: 1 });
       });
       

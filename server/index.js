@@ -3,7 +3,7 @@ const app = express();
 const http = require("http").Server(app);
 const io = require("socket.io")(http, {
   cors: {
-    origins: ["http://localhost:7000/"],
+    origins: ["http://localhost:7000"],
   },
 });
 const path = require("path");
@@ -16,8 +16,6 @@ let roomJoined = {
   5: 0,
 };
 
-app.use("/img", express.static(path.join(__dirname, "../src/assets/")));
-console.log(path.join(__dirname, "../src/assets"));
 io.on("connection", (socket) => {
   console.log(socket.id, "플레이어 접속");
   console.log(players.length);

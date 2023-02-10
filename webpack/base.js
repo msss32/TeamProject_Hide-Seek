@@ -5,6 +5,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const join = path.join;
 
 module.exports = {
+  entry: "./src/index.js",
   mode: "development",
   devServer: {
     port: 7000,
@@ -26,9 +27,6 @@ module.exports = {
       {
         test: /\.(gif|png|jpe?g|svg|xml)$/i,
         use: "file-loader",
-        options: {
-          name: "assets/[hash][name].[ext]",
-        },
       },
     ],
   },
