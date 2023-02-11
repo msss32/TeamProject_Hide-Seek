@@ -132,7 +132,7 @@ PNG.decode("mapmask.png", function (data) {
     player.y = player.y - PLAYER_SPEED;
   };
 ```
-유투브를 통해 PNG를 decode해서 바운드영역을 설정할 수 있다는 것을 알게 되어 png-js와 fs 모듈을 통해 바운드영역을 손쉽게 제작 <br/>
+리서치를 통해 PNG를 decode해서 바운드영역을 설정할 수 있다는 것을 알게 되어 png-js와 fs 모듈을 통해 바운드영역을 손쉽게 제작 <br/>
 먼저 맵 이미지(mapmask.png)에 첫번째 이미지처럼 한 색(빨간색)으로 바운더리를 지정
 <br>
 Move Function쪽에 바운더리를 적용해주면 아래의 이미지와 같이 충돌이 잘 실행되는 것을 볼 수 있음
