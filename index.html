@@ -176,7 +176,7 @@
         </dt>
       </div>
     </div>
-    <div id="chattingTitle">
+    <!-- <div id="chattingTitle">
       꼭꼭 숨어라 머리카락 보일라
       <div id="chattingBox">
         <ul id="messages"></ul>
@@ -185,7 +185,7 @@
           <button id="sendBtn">Chat</button>
         </div>
       </div>
-    </div>
+    </div> -->
   </body>
   <script>
     socket = io("http://localhost:5000/");
@@ -202,7 +202,7 @@
         document.getElementById("title").style.visibility = "hidden";
         document.getElementById("roomSelect").style.visibility = "hidden";
         document.querySelector("canvas").style.visibility = "visible";
-        document.querySelector("#chattingTitle").style.visibility = "visible";
+        // document.querySelector("#chattingTitle").style.visibility = "visible";
         // document.getElementById("characterSelect").style.visibility = "visible"
         socket.emit("playerJoin", { room: 1 });
       });

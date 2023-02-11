@@ -141,10 +141,64 @@ Move Function쪽에 바운더리를 적용해주면 아래의 이미지와 같�
 <img width="600" alt="1" src="https://user-images.githubusercontent.com/107897886/218107763-25a928e7-03cd-43ae-b7c7-58778912dbbc.gif">
 
 <br/>
+<br/>
 
 - **멀티플레이**
 
+멀티플레이를 구현하는 것에서 오랜 시간 소요<br> 
+어떤 부분을 소켓으로 보내고 받아와야할 지 많은 고민 끝에 구현함
+
+<br> 
+<img width="600" alt="1" src="https://user-images.githubusercontent.com/107897886/218254702-93933311-aec2-46db-9f85-212c58a7d631.gif">
+
+<br>
+<img width="600" alt="1" src="https://user-images.githubusercontent.com/107897886/218254726-abf706f0-4c81-497e-9dd6-eab2c2548f57.gif">
+
 <br/>
+
+Client 부분
+```javascript
+const playerMoved = movePlayer(pressedKeys, player.sprite);
+    if (playerMoved) {
+      socket.emit("move", {
+        x: player.sprite.x,
+        y: player.sprite.y,
+        id: player.id,
+      });
+      player.movedLastFrame = true;
+    } else {
+      if (player.movedLastFrame) {
+        socket.emit("moveEnd");
+      }
+      player.movedLastFrame = false;
+    }
+    animateMovement(pressedKeys, player.sprite);
+
+    players
+      .filter((_player) => _player.id != player.id)
+      .forEach((_player) => {
+        if (_player.moving && !_player.sprite.anims.isPlaying) {
+          _player.sprite.play("running");
+        } else if (!_player.moving && _player.sprite.anims.isPlaying) {
+          _player.sprite.stop("running");
+        }
+      });
+```
+<br>
+Server 부분
+
+```javascript
+ socket.on("move", ({ x, y }) => {
+    socket.broadcast.emit("move", { x, y, id: socket.id });
+  });
+  socket.on("moveEnd", () => {
+    socket.broadcast.emit("moveEnd", { id: socket.id });
+  });
+```
+코드의 자체는 굉장히 간결했고 로직을 짜는 데에는 굉장히 많은 시간을 소모 <br>
+현재 이유는 모르지만 멀티플레이 어떤 때는 잘 작동하고, 어떤 때는 오작동하는 순간이 발생 -> 후에 리팩토링이 필요
+
+<br>
 
 ### 3. 이슈
 #
@@ -163,7 +217,13 @@ Move Function쪽에 바운더리를 적용해주면 아래의 이미지와 같�
 <br/>
 
 (2) 
+맵이 디코딩된 후 이상하게 바운더리가 적용되는 오류 발생
 
-    -
+    - 디코딩될 때 y좌표에 약간의 오차가 발생하는 것을 확인
+    - 충돌이 일어나는 값 y좌표의 값을 31추가하는 것으로 해결
 
-    
+(3)
+처음 이동기능을 구현했을 때, 다른 플레이어가 애니메이션이 진행되지 않고 좌표만 바뀌는 오류 발생
+
+    - 소켓으로 타 플레이어의 움직임을 보내줄 때 애니메이션 또한 클라이언트에서 그려줘야 함을 인식
+    - 움직이는 플레이어의 소켓을 받아 자신이 아닐 때, 그 캐릭터의 

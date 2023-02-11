@@ -13,7 +13,6 @@ import {
 } from "./constants";
 import { movePlayer } from "./movement";
 import { animateMovement } from "./animation";
-import { get } from "stream-http";
 
 let player = {};
 let monster = {};
